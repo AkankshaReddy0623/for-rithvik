@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGame } from '../context/GameContext'
 
-const PHOTO_SRC  = 'public/photos/jig.jpg'
+const PHOTO_SRC  = '/photos/jig.jpg'
 const COLS       = 4
 const ROWS       = 5
 const TOTAL      = COLS * ROWS          // 20

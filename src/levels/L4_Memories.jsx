@@ -11,7 +11,7 @@ const MEMORIES = [
     accent: '#F5C518',
     emoji: '🎃',
     side: 'left',
-    media: 'public/photos/halloween.jpg',
+    media: '/photos/halloween.jpg',
     mediaType: 'image',
   },
   {
@@ -23,7 +23,7 @@ const MEMORIES = [
     accent: '#2DBDB1',
     emoji: '🎬',
     side: 'right',
-    media: 'public/photos/ce.jpg',
+    media: '/photos/ce.jpg',
     mediaType: 'image',
   },
   {
@@ -35,7 +35,7 @@ const MEMORIES = [
     accent: '#E8527A',
     emoji: '✍️',
     side: 'left',
-    media: 'public/photos/wc.jpg',
+    media: '/photos/wc.jpg',
     mediaType: 'image',
   },
   {
@@ -47,7 +47,7 @@ const MEMORIES = [
     accent: '#F5C518',
     emoji: '🕺',
     side: 'right',
-    media: 'public/photos/sdt.jpg',
+    media: '/photos/sdt.jpg',
     mediaType: 'image',
   },
   {
@@ -59,7 +59,7 @@ const MEMORIES = [
     accent: '#2DBDB1',
     emoji: '📷',
     side: 'left',
-    media: 'public/photos/bff.jpg',
+    media: '/photos/bff.jpg',
     mediaType: 'image',
   },
   {
@@ -71,7 +71,7 @@ const MEMORIES = [
     accent: '#E8527A',
     emoji: '🧟',
     side: 'right',
-    media: 'public/photos/undying.jpg',
+    media: '/photos/undying.jpg',
     mediaType: 'image',
   },
   {
@@ -83,7 +83,7 @@ const MEMORIES = [
     accent: '#F5C518',
     emoji: '🎥',
     side: 'left',
-    media: 'public/photos/nnnm.jpg',
+    media: '/photos/nnnm.jpg',
     mediaType: 'image',
   },
   {
@@ -95,7 +95,7 @@ const MEMORIES = [
     accent: '#E8527A',
     emoji: '💌',
     side: 'right',
-    media: 'public/photos/val.jpg',
+    media: '/photos/val.jpg',
     mediaType: 'image',
   },
   {
@@ -107,7 +107,7 @@ const MEMORIES = [
     accent: '#2DBDB1',
     emoji: '🎭',
     side: 'left',
-    media: 'public/photos/kk.jpg',
+    media: '/photos/kk.jpg',
     mediaType: 'image',
   },
   {
@@ -119,7 +119,7 @@ const MEMORIES = [
     accent: '#F5C518',
     emoji: '🌼',
     side: 'right',
-    media: 'public/photos/cf.jpg',
+    media: '/photos/cf.jpg',
     mediaType: 'image',
   },
 ]
@@ -144,7 +144,6 @@ export default function L4_Memories() {
         overflowX: 'hidden',
       }}
     >
-      {/* Heading */}
       <div
         style={{
           textAlign: 'center',
@@ -169,7 +168,6 @@ export default function L4_Memories() {
         </p>
       </div>
 
-      {/* Timeline */}
       <div
         style={{
           position: 'relative',
@@ -177,7 +175,6 @@ export default function L4_Memories() {
           margin: '3rem auto 0',
         }}
       >
-        {/* Centre spine */}
         <div
           style={{
             position: 'absolute',
@@ -196,7 +193,6 @@ export default function L4_Memories() {
         ))}
       </div>
 
-      {/* Continue button */}
       <div style={{ textAlign: 'center', marginTop: '4rem', animation: 'fadeUp 0.7s ease both' }}>
         <button
           onClick={handleNext}
@@ -209,6 +205,7 @@ export default function L4_Memories() {
             fontFamily: 'DM Sans',
             fontWeight: 500,
             fontSize: '1.05rem',
+            cursor: 'pointer',
             transition: 'transform 0.2s, box-shadow 0.2s',
           }}
           onMouseEnter={e => {
@@ -243,10 +240,7 @@ function TimelineCard({ mem, index }) {
         animation: `${isLeft ? 'slideInLeft' : 'slideInRight'} 0.6s ${delay} ease both`,
       }}
     >
-      {/* Card takes up ~45% width on its side */}
       <div style={{ width: '45%', display: 'flex', flexDirection: 'column', alignItems: isLeft ? 'flex-end' : 'flex-start' }}>
-
-        {/* Date label */}
         <p
           style={{
             fontFamily: 'Caveat',
@@ -254,18 +248,13 @@ function TimelineCard({ mem, index }) {
             color: mem.accent,
             marginBottom: '0.5rem',
             opacity: 0.7,
-            paddingRight: isLeft ? 4 : 0,
-            paddingLeft: isLeft ? 0 : 4,
           }}
         >
           {mem.date} — {mem.label}
         </p>
-
-        {/* Polaroid flip card */}
         <PolaroidCard mem={mem} isLeft={isLeft} />
       </div>
 
-      {/* Centre dot */}
       <div
         style={{
           position: 'absolute',
@@ -323,8 +312,6 @@ function PolaroidCard({ mem, isLeft }) {
       `}</style>
 
       <div className="polaroid-inner">
-
-        {/* FRONT — photo/video placeholder */}
         <div
           className="polaroid-front"
           style={{
@@ -333,7 +320,6 @@ function PolaroidCard({ mem, isLeft }) {
             boxShadow: '0 8px 32px rgba(0,0,0,0.5), 3px 3px 0 rgba(0,0,0,0.15)',
           }}
         >
-          {/* Media area */}
           <div
             style={{
               width: '100%',
@@ -341,51 +327,29 @@ function PolaroidCard({ mem, isLeft }) {
               background: mem.color,
               border: `1px solid ${mem.accent}22`,
               borderRadius: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
               overflow: 'hidden',
               position: 'relative',
             }}
           >
-            {mem.media ? (
-              mem.mediaType === 'video' ? (
-                <video
-                  src={mem.media}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              ) : (
-                <img
-                  src={mem.media}
-                  alt={mem.label}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              )
+            {mem.mediaType === 'video' ? (
+              <video
+                src={mem.media}
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
             ) : (
-              <>
-                <span style={{ fontSize: '2.4rem' }}>{mem.emoji}</span>
-                <span
-                  style={{
-                    fontFamily: 'Caveat',
-                    fontSize: '0.8rem',
-                    color: `${mem.accent}88`,
-                    textAlign: 'center',
-                    padding: '0 8px',
-                  }}
-                >
-                  add photo / video here
-                </span>
-              </>
+              <img
+                src={mem.media}
+                alt={mem.label}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
             )}
           </div>
 
-          {/* Polaroid label strip */}
           <div
             style={{
               display: 'flex',
@@ -408,7 +372,6 @@ function PolaroidCard({ mem, isLeft }) {
           </div>
         </div>
 
-        {/* BACK — date + caption */}
         <div
           className="polaroid-back"
           style={{
@@ -421,7 +384,6 @@ function PolaroidCard({ mem, isLeft }) {
             overflowY: 'auto',
           }}
         >
-          {/* Date */}
           <p
             style={{
               fontFamily: 'Caveat',
@@ -435,7 +397,6 @@ function PolaroidCard({ mem, isLeft }) {
             {mem.date}
           </p>
 
-          {/* Caption */}
           <p
             style={{
               fontFamily: 'Caveat',
@@ -447,11 +408,8 @@ function PolaroidCard({ mem, isLeft }) {
           >
             {mem.caption}
           </p>
-
-          {/* Heart */}
           <p style={{ textAlign: 'right', fontSize: '1rem', color: '#E8527A' }}>♡</p>
         </div>
-
       </div>
     </div>
   )

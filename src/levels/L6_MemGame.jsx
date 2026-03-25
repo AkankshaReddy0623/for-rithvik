@@ -2,16 +2,36 @@ import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGame } from '../context/GameContext'
 
+// --- 1. Sub-components (Hoisted to top for safety) ---
+function Stars() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
+      {Array.from({ length: 30 }).map((_, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          width: 2, height: 2, borderRadius: '50%',
+          background: 'white',
+          opacity: Math.random() * 0.35 + 0.05,
+          animation: `starTwinkle ${2 + Math.random() * 4}s ease-in-out infinite`,
+          animationDelay: `${Math.random() * 5}s`,
+        }} />
+      ))}
+    </div>
+  )
+}
 
+// --- 2. Constants & Helpers ---
 const PAIRS = [
-  { id: 'mem1', photo: 'public/photos/one.jpg', color: '#2A1900', label: 'Memory 1' },
-  { id: 'mem2', photo: 'public/photos/two.jpg', color: '#1A0008', label: 'Memory 2' },
-  { id: 'mem3', photo: 'public/photos/three.jpg', color: '#001A10', label: 'Memory 3' },
-  { id: 'mem4', photo: 'public/photos/four.jpg', color: '#0A001A', label: 'Memory 4' },
-  { id: 'mem5', photo: 'public/photos/five.jpg', color: '#001018', label: 'Memory 5' },
-  { id: 'mem6', photo: 'public/photos/six.jpg', color: '#1A0A00', label: 'Memory 6' },
-  { id: 'mem7', photo: 'public/photos/seven.jpg', color: '#0A1A00', label: 'Memory 7' },
-  { id: 'mem8', photo: 'public/photos/eight.jpg', color: '#1A0012', label: 'Memory 8' },
+  { id: 'mem1', photo: '/photos/one.jpg', color: '#2A1900', label: 'Memory 1' },
+  { id: 'mem2', photo: '/photos/two.jpg', color: '#1A0008', label: 'Memory 2' },
+  { id: 'mem3', photo: '/photos/three.jpg', color: '#001A10', label: 'Memory 3' },
+  { id: 'mem4', photo: '/photos/four.jpg', color: '#0A001A', label: 'Memory 4' },
+  { id: 'mem5', photo: '/photos/five.jpg', color: '#001018', label: 'Memory 5' },
+  { id: 'mem6', photo: '/photos/six.jpg', color: '#1A0A00', label: 'Memory 6' },
+  { id: 'mem7', photo: '/photos/seven.jpg', color: '#0A1A00', label: 'Memory 7' },
+  { id: 'mem8', photo: '/photos/eight.jpg', color: '#1A0012', label: 'Memory 8' },
 ]
 
 const ROASTS = [
@@ -45,20 +65,21 @@ function buildDeck() {
   return shuffle(cards)
 }
 
+// --- 3. Main Component ---
 export default function L6_MemGame() {
   const navigate = useNavigate()
   const { unlock } = useGame()
 
-  const [deck]                        = useState(() => buildDeck())
-  const [flipped, setFlipped]         = useState([])
-  const [matched, setMatched]         = useState([])
-  const [locked, setLocked]           = useState(false)
-  const [roast, setRoast]             = useState('')
-  const [roastKey, setRoastKey]       = useState(0)
-  const [shakePair, setShakePair]     = useState([])
-  const [moves, setMoves]             = useState(0)
-  const [won, setWon]                 = useState(false)
-  const [roastCount, setRoastCount]   = useState(0)
+  const [deck] = useState(() => buildDeck())
+  const [flipped, setFlipped] = useState([])
+  const [matched, setMatched] = useState([])
+  const [locked, setLocked] = useState(false)
+  const [roast, setRoast] = useState('')
+  const [roastKey, setRoastKey] = useState(0)
+  const [shakePair, setShakePair] = useState([])
+  const [moves, setMoves] = useState(0)
+  const [won, setWon] = useState(false)
+  const [roastCount, setRoastCount] = useState(0)
 
   const flipCard = useCallback((idx) => {
     if (locked) return
@@ -74,7 +95,6 @@ export default function L6_MemGame() {
       const [a, b] = newFlipped
 
       if (deck[a].id === deck[b].id) {
-        // Match!
         const newMatched = [...matched, deck[a].id]
         setMatched(newMatched)
         setFlipped([])
@@ -84,7 +104,6 @@ export default function L6_MemGame() {
           setWon(true)
         }
       } else {
-        // No match — show roast then flip back
         const msg = ROASTS[roastCount % ROASTS.length]
         setRoast(msg)
         setRoastKey(k => k + 1)
@@ -109,7 +128,6 @@ export default function L6_MemGame() {
     }}>
       <Stars />
 
-      {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '1rem', position: 'relative', zIndex: 2, animation: 'fadeUp 0.6s ease both' }}>
         <span className="badge">Level 6 — memory game</span>
         <h2 style={{
@@ -121,7 +139,6 @@ export default function L6_MemGame() {
         </p>
       </div>
 
-      {/* Roast message */}
       <div style={{ minHeight: '2rem', marginBottom: '0.75rem', textAlign: 'center', position: 'relative', zIndex: 2 }}>
         {roast && !won && (
           <p key={roastKey} style={{
@@ -141,7 +158,6 @@ export default function L6_MemGame() {
         )}
       </div>
 
-      {/* Card grid */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
@@ -170,7 +186,6 @@ export default function L6_MemGame() {
         })}
       </div>
 
-      {/* Win — continue button */}
       {won && (
         <div style={{ marginTop: '2.5rem', textAlign: 'center', position: 'relative', zIndex: 2, animation: 'fadeUp 0.6s ease both' }}>
           <button
@@ -178,7 +193,7 @@ export default function L6_MemGame() {
             style={{
               padding: '14px 44px', borderRadius: 99, background: '#F5C518',
               color: '#1A1209', border: 'none', fontFamily: 'DM Sans',
-              fontWeight: 500, fontSize: '1rem', transition: 'transform 0.2s, box-shadow 0.2s',
+              fontWeight: 500, fontSize: '1rem', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s',
             }}
             onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.06)'; e.currentTarget.style.boxShadow = '0 0 32px rgba(245,197,24,0.45)' }}
             onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none' }}
@@ -192,6 +207,9 @@ export default function L6_MemGame() {
 }
 
 function MemCard({ card, isFaceUp, isMatched, isShaking, onClick }) {
+  // Simple sanitizer for class names
+  const safeId = card.uid.replace(/[^a-z0-9]/gi, '');
+  
   return (
     <div
       onClick={!isFaceUp ? onClick : undefined}
@@ -199,10 +217,11 @@ function MemCard({ card, isFaceUp, isMatched, isShaking, onClick }) {
         aspectRatio: '1',
         perspective: 600,
         animation: isShaking ? 'shake 0.4s ease' : 'none',
+        cursor: isFaceUp ? 'default' : 'pointer'
       }}
     >
       <style>{`
-        .mem-inner-${card.uid.replace(/[^a-z0-9]/gi, '')} {
+        .mem-inner-${safeId} {
           transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
           transform-style: preserve-3d;
           position: relative;
@@ -223,8 +242,7 @@ function MemCard({ card, isFaceUp, isMatched, isShaking, onClick }) {
         }
       `}</style>
 
-      <div className={`mem-inner-${card.uid.replace(/[^a-z0-9]/gi, '')}`}>
-
+      <div className={`mem-inner-${safeId}`}>
         {/* Card back — question mark */}
         <div
           className="mem-face"
@@ -232,7 +250,6 @@ function MemCard({ card, isFaceUp, isMatched, isShaking, onClick }) {
             background: 'rgba(245,197,24,0.06)',
             border: '1.5px solid rgba(245,197,24,0.2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer',
             transition: 'border-color 0.2s, background 0.2s',
           }}
           onMouseEnter={e => {
@@ -249,7 +266,7 @@ function MemCard({ card, isFaceUp, isMatched, isShaking, onClick }) {
           <span style={{ fontFamily: 'Playfair Display', fontSize: '1.6rem', color: 'rgba(245,197,24,0.3)', fontStyle: 'italic' }}>?</span>
         </div>
 
-        {/* Card front — photo or placeholder */}
+        {/* Card front — photo */}
         <div
           className="mem-face mem-back-face"
           style={{
@@ -277,13 +294,10 @@ function MemCard({ card, isFaceUp, isMatched, isShaking, onClick }) {
               <span style={{
                 fontFamily: 'Caveat', fontSize: '0.7rem',
                 color: 'rgba(245,197,24,0.35)', textAlign: 'center',
-              }}>
-                {card.label}
-              </span>
+              }}>{card.label}</span>
             </div>
           )}
 
-          {/* Matched checkmark overlay */}
           {isMatched && (
             <div style={{
               position: 'absolute', top: 6, right: 6,
@@ -295,27 +309,7 @@ function MemCard({ card, isFaceUp, isMatched, isShaking, onClick }) {
             </div>
           )}
         </div>
-
       </div>
-    </div>
-  )
-}
-
-function Stars() {
-  return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
-      {Array.from({ length: 30 }).map((_, i) => (
-        <div key={i} style={{
-          position: 'absolute',
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          width: 2, height: 2, borderRadius: '50%',
-          background: 'white',
-          opacity: Math.random() * 0.35 + 0.05,
-          animation: `starTwinkle ${2 + Math.random() * 4}s ease-in-out infinite`,
-          animationDelay: `${Math.random() * 5}s`,
-        }} />
-      ))}
     </div>
   )
 }
