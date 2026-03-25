@@ -1,0 +1,299 @@
+/* ============================================================
+   GLOBAL STYLES — no Tailwind JIT dependency
+   All classes defined explicitly here so nothing can silently fail
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: none !important;
+}
+
+:root {
+  --yellow:      #F5C518;
+  --yellow-soft: #FFF6C0;
+  --yellow-dim:  rgba(245, 197, 24, 0.15);
+  --rose:        #E8527A;
+  --rose-soft:   #FFE0EA;
+  --ink:         #1A1209;
+  --ink2:        #2C1D0A;
+  --cream:       #FDFAF2;
+  --teal:        #2DBDB1;
+
+  --font-display: 'Playfair Display', serif;
+  --font-hand:    'Caveat', cursive;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video { max-width: 100%; display: block; }
+button { font-family: inherit; }
+
+/* ── Custom cursor ── */
+#custom-cursor {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  background: var(--yellow);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+  mix-blend-mode: screen;
+}
+#custom-cursor.hovering {
+  width: 32px;
+  height: 32px;
+  opacity: 0.7;
+}
+
+/* ── Particle canvas ── */
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Progress bar ── */
+#progress-bar {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 3px;
+  background: var(--yellow);
+  box-shadow: 0 0 12px rgba(245, 197, 24, 0.6);
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 9998;
+}
+
+/* ── Level screen wrapper ── */
+.level-screen {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 2;
+}
+
+/* ── Stars background (used across levels) ── */
+.stars-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ── Typography helpers ── */
+.font-display { font-family: var(--font-display); }
+.font-hand    { font-family: var(--font-hand); }
+.font-body    { font-family: var(--font-body); }
+
+.text-yellow  { color: var(--yellow); }
+.text-rose    { color: var(--rose); }
+.text-cream   { color: var(--cream); }
+.text-teal    { color: var(--teal); }
+.text-muted   { color: rgba(253, 250, 242, 0.5); }
+.text-center  { text-align: center; }
+
+/* ── Layout helpers ── */
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.flex-row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.flex-wrap { flex-wrap: wrap; }
+.relative  { position: relative; }
+.absolute  { position: absolute; }
+.inset-0   { top: 0; right: 0; bottom: 0; left: 0; }
+.z-10      { z-index: 10; }
+.select-none { user-select: none; }
+.pointer-none { pointer-events: none; }
+.overflow-hidden { overflow: hidden; }
+.w-full    { width: 100%; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* ── Button base ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
+}
+.btn:active { transform: scale(0.95) !important; }
+
+.btn-primary {
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 14px 40px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 28px rgba(245, 197, 24, 0.45);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--cream);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  padding: 14px 40px;
+  border-radius: 99px;
+}
+.btn-outline:hover {
+  border-color: rgba(255,255,255,0.5);
+  transform: scale(1.03);
+}
+
+/* ── Card ── */
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(245,197,24,0.15);
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+
+/* ── Tag / badge ── */
+.badge {
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  color: var(--yellow);
+  border: 1px solid rgba(245,197,24,0.3);
+  padding: 4px 16px;
+  border-radius: 99px;
+}
+
+/* ── Divider line ── */
+.divider {
+  width: 60px;
+  height: 1px;
+  background: rgba(245,197,24,0.3);
+  margin: 1rem auto;
+}
+
+/* ═══════════════════════════════
+   KEYFRAME ANIMATIONS
+   ═══════════════════════════════ */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-10px); }
+  30%       { transform: translateX(10px); }
+  45%       { transform: translateX(-8px); }
+  60%       { transform: translateX(8px); }
+  75%       { transform: translateX(-4px); }
+  90%       { transform: translateX(4px); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.45); }
+  50%       { box-shadow: 0 0 0 18px rgba(245, 197, 24, 0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50%       { opacity: 0.85; transform: scale(1.4); }
+}
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes petalFall {
+  0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0.9; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+@keyframes chargeFill {
+  from { width: 0%; }
+  to   { width: var(--target-width, 100%); }
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg);    opacity: 1; }
+  100% { transform: translateY(110vh) rotate(var(--rot, 360deg)); opacity: 0; }
+}
+@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+@keyframes blink {
+  0%, 100% { border-color: transparent; }
+  50%       { border-color: var(--yellow); }
+}
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 20px rgba(245,197,24,0.3); }
+  50%       { text-shadow: 0 0 60px rgba(245,197,24,0.8), 0 0 100px rgba(245,197,24,0.3); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes waveform {
+  0%, 100% { transform: scaleY(0.3); }
+  50%       { transform: scaleY(1); }
+}
+
+/* ── Animation utility classes ── */
+.anim-fadeUp         { animation: fadeUp 0.7s ease both; }
+.anim-fadeIn         { animation: fadeIn 0.5s ease both; }
+.anim-scaleIn        { animation: scaleIn 0.5s ease both; }
+.anim-shake          { animation: shake 0.45s ease; }
+.anim-float          { animation: float 3s ease-in-out infinite; }
+.anim-pulseGlow      { animation: pulseGlow 2s ease-in-out infinite; }
+.anim-spinSlow       { animation: spinSlow 12s linear infinite; }
+.anim-glowPulse      { animation: glowPulse 2.5s ease-in-out infinite; }
+.anim-slideInLeft    { animation: slideInLeft 0.6s ease both; }
+.anim-slideInRight   { animation: slideInRight 0.6s ease both; }
