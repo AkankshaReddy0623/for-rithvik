@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { GameProvider } from './context/GameContext'
 import Cursor from './components/Cursor'
 import ProgressBar from './components/ProgressBar'
@@ -8,7 +8,7 @@ import L0_Lock         from './levels/L0_Lock'
 import L1_Welcome      from './levels/L1_Welcome'
 import L2_Gesture      from './levels/L2_Gesture'
 import L3_Voice        from './levels/L3_Voice'
-import L4_Memories      from './levels/L4_Memories'
+import L4_Memories     from './levels/L4_Memories'
 import L5_Compat       from './levels/L5_Compat'
 import L6_MemGame      from './levels/L6_MemGame'
 import L7_Arcade       from './levels/L7_Arcade'
@@ -22,14 +22,13 @@ import L13_Finale      from './levels/L13_Finale'
 export default function App() {
   return (
     <GameProvider>
-      {/* Using HashRouter instead of BrowserRouter for GitHub Pages. 
-          This ensures that refreshing the page doesn't lead to a 404 error.
+      {/* BrowserRouter is back! 
+          On Vercel, this allows for clean URLs like /welcome and /voice.
       */}
-      <HashRouter>
+      <BrowserRouter>
         <Cursor />
         <ProgressBar />
         <Routes>
-          {/* Level Routes */}
           <Route path="/"           element={<L0_Lock />} />
           <Route path="/welcome"    element={<L1_Welcome />} />
           <Route path="/gesture"    element={<L2_Gesture />} />
@@ -45,10 +44,10 @@ export default function App() {
           <Route path="/ask"        element={<L12_Ask />} />
           <Route path="/finale"     element={<L13_Finale />} />
 
-          {/* Catch-all: Redirect unknown paths back to the start */}
+          {/* Fallback to home if the URL is typed incorrectly */}
           <Route path="*"           element={<Navigate to="/" replace />} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </GameProvider>
   )
 }
