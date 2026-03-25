@@ -21,7 +21,7 @@ import L13_Finale     from './levels/L13_Finale'
 export default function App() {
   return (
     <GameProvider>
-      <BrowserRouter basename="/rithvik-website">
+      <BrowserRouter basename="/for-rithvik">
         <Cursor />
         <ProgressBar />
         <Routes>
