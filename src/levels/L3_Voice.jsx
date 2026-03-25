@@ -5,7 +5,28 @@ import { useGame } from '../context/GameContext'
 const TARGET_PHRASE    = 'i love you akanksha'
 const PARTIAL_PHRASE   = 'i love you'
 const MAX_ATTEMPTS     = 8
-
+function Stars() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
+      {Array.from({ length: 35 }).map((_, i) => (
+        <div
+          key={i}
+          style={{
+            position: 'absolute',
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            width: 2, height: 2,
+            borderRadius: '50%',
+            background: i % 5 === 0 ? '#E8527A' : 'white',
+            opacity: Math.random() * 0.4 + 0.1,
+            animation: `starTwinkle ${2 + Math.random() * 4}s ease-in-out infinite`,
+            animationDelay: `${Math.random() * 5}s`,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
 function normalise(str) {
   return str
     .toLowerCase()
@@ -409,29 +430,6 @@ export default function L3_Voice() {
           </p>
         )}
       </div>
-    </div>
-  )
-}
-
-function Stars() {
-  return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
-      {Array.from({ length: 35 }).map((_, i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute',
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            width: 2, height: 2,
-            borderRadius: '50%',
-            background: i % 5 === 0 ? '#E8527A' : 'white',
-            opacity: Math.random() * 0.4 + 0.1,
-            animation: `starTwinkle ${2 + Math.random() * 4}s ease-in-out infinite`,
-            animationDelay: `${Math.random() * 5}s`,
-          }}
-        />
-      ))}
     </div>
   )
 }
